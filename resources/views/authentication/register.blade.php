@@ -13,7 +13,7 @@
                     @csrf {{-- Untuk menangani Cross Site Request Forgery --}}
                     <div class="input-group mb-3">
                         {{-- Memberikan name, id, class error, required, dan value --}}
-                        <input type="text" name="name" id="name" class="form-control @error('name')is-invalid @enderror" placeholder="Nama Lengkap" requied value="{{ old('name') }}">
+                        <input type="text" name="name" id="name" class="form-control @error('name')is-invalid @enderror" placeholder="Nama Lengkap" requied value="{{ old('name') }}"  autocomplete="off">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="input-group mb-3">
                         {{-- Memberikan name, id, class error, required, dan value --}}
-                        <input type="text" name="username" id="username" class="form-control @error('username')is-invalid @enderror" placeholder="Username" requied value="{{ old('username') }}">
+                        <input type="text" name="username" id="username" class="form-control @error('username')is-invalid @enderror" placeholder="Username" requied value="{{ old('username') }}"  autocomplete="off">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user-tie"></span>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="input-group mb-3">
                         {{-- Memberikan name, id, class error, required, dan value --}}
-                        <input type="email" name="email" id="email" class="form-control @error('email')is-invalid @enderror" placeholder="Email" required value="{{ old('email') }}">
+                        <input type="email" name="email" id="email" class="form-control @error('email')is-invalid @enderror" placeholder="Email" required value="{{ old('email') }}"  autocomplete="off">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>

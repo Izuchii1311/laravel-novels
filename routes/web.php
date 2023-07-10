@@ -46,15 +46,18 @@ Route::get('/about', function () {
 });
 
 # Login
-Route::get('/login', [LoginController::class, "index"]);
+Route::get('/login', [LoginController::class, "index"])->name('login')->middleware('guest');
+Route::post('/login', [LoginController::class, "authenticate"]);
+# Logout
+Route::post('/logout', [LoginController::class, 'logout']);
 
 # Register
-Route::get('/register', [RegisterController::class, 'index']);
+Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
 
 # Admin/Index
-Route::get('/dashboard/index', function () {
+Route::get('/dashboard', function () {
     return view('dashboard.index', [
         "title" => "Dashboard Admin"
     ]);
-});
+})->middleware('auth');
