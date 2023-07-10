@@ -1,0 +1,57 @@
+Membuat view untuk halaman awal, beserta implementasi bootstrap dan konektifitas antara route page.
+Membuat Route page, agar link dapat terkoneksi atau di klik satu sama lain.
+Membuat folder js, css, di dalam folder public
+Membuat Model Post beserta factorynya.
+Membuat Post Controller - resource
+Membuat new Post table di database migration.
+cek nama database yang diinginkan di .env
+Membuat data table untuk Post (title, slug{uniq}, excerpt, body, published_at)
+Membuat data table untuk user (name, username{uniq}, email, email_verified_at, password)
+lalu lakukan migrate
+selanjutnya buka Post dan berikan $guarded = id agar yang tidak bisa diisi hanya id, sisanya bisa diisi atau null.
+jangan lupa untuk lakukan migrate pada table database diatas
+
+Kemudian isi table Post dengan data secara manual, buat misalkan 1-4 data saja dulu.
+Masuk ke Post Controller di index melakukan pemanggilan data dari model, dan jangan lupa untuk merubah routenya agar tidak lagi menggunakan closure function, tapi langsung memanggil PostController::class, 'index'
+Selanjutnya cukup panggil datanya berdasarkan index key dan jika banyak lakukan dengan menggunakan foreach.
+Agar membuat lebih spesifik mengenai info detail Post dilakukan dengan cara membuat route baru dengan mengirimkan slugnya show/{Post:slug} dan memanggil PostController::class, show
+Karena show akan menerima parameter yaitu $show, parameter tersebut akan menerima slug dari postingan tersebut, slug digunakan sebagai pengganti id.
+Oleh karena itu code di show hampir sama sama dengan di index.
+
+Melakukan sedikit perubahan pada penyesuaian struktur folder dan ui tampilannya.
+
+Membuat Model, Controller, dan Factory untuk Category.
+Merubah kembali migrasi untuk Post_table dan menambahkan foreignId (user_id, dan category_id)
+Selanjutnya melakukan konektifitas dengan table lain di modelnya, apakah itu belongsTo atau hasMany
+!!jangan lupa untuk membuat table category terlebih dahulu hanya name & slug dan keduanya unique karena nama category seharusnya tidak ada yang sama.
+dan lakukan migrate:fresh kemudian untuk mengeceknya jangan lupa untuk membuat data Post dan category secara manual di db.
+untuk memanggilnya kita cukup dengan cara $Post->category->name
+Membuat juga view category yang kurang lebih tidak beda jauh dengan Post namun saat ini buat sebuah list saja dahulu untuk menampilkan list category
+
+Langkah berikutnya membuat factory dengan menggunakan library faker dari php untuk mendapatkan text / angka random.
+Pastikan di factories ada PostFactory dan UserFactory, lakukan faker untuk membuat text random di factoriesnya untuk codenya dapat dengan melihat filenya.
+kemudian lakukan seeder untuk menyimpan data dari factory ke databasenya, karena category itu tidak berubah ubah maka, category dibuat langsung di seedernya.
+Jika sudah lakukan migrate dengan --seed
+
+# agar faker menjadi bahasa indonesia
+app.php faker_locale = env('FAKER_LOCALE', '...')
+.env FAKER_LOCALE=id_ID
+
+Installasi Clockwork untuk melihat pemanggilan data dari database.
+Kemudian karena kita berhasil memanggil semua datanya, masih ada permasalahan yaitu N+1 dimana query pemanggilan data dari databasenya akan dilakukan berulang kali, sehingga membuat performa website menjadi lambat jika melakukan pemanggilan query data secara banyak.
+disini kita mengalami masalah dan itu terjadi karena secara default jika kita melakukan all() pada pemanggilan query maka akan ditampilkan semuanya, dan secara otomatis itu adalah eager loading(semangat). Kita akan merubahnya menjadi Lazy loading(malas), sehingga kita akan query semuanya tapi tampilkan yang kita butuhkan saja, misalkan di Postingan Post ada Post, Category, Author. Maka dengan Lazy akan memanggil semuanya dengan yang dibutuhkannya saja.
+misalkan si Category karena tidak ada yang ditampilkan lebih detail mengenai category jika dengan Lazy loading kita bisa melihat bahwa hanya id yang dipanggil querynya.
+di model Post kita buat protected $with = ['user', 'category'];
+untuk mendefinisikan bahwa Post terhubung dengan user dan category secara otomatis saat mengambil data.
+kemudian di PostController kita gunakan with(['user', 'category'])->get(), artinya kita melakukan query data secara lazy sekalian juga user dan category ->get ambil datanya dan tampilkan. Sampai sini lazy load untuk posts selesai namun untuk category & Author kita gunakan load.
+karena akan menerima slug dari category atau username dari user, maka kita lakukan $category->Post->load('user', 'category'), karena kita menerima slug dari category lalu tampilkan Post berdasarkan category yang dipilih, sekalian kita load juga user dan category karena Post sudah di with kita hanya perlu melakukan load untuk pemanggilan user dan categorynya agar kita bisa menerima slug lagi.
+
+Membuat Form untuk Pencarian
+Query Scope untuk model, dimana kita menggunakan ini sebagai fitur pencarian judul Post berdasarkan categorynya atau authornya.
+Kita sebenarnya bisa melakukan Query Scope untuk pencarian dengan menggunakan if(isset()) untuk mengecek kondisi apakah request inputannya ada atau tidak, jika tidak ada maka akan jalankan fungsi apa. Nah Di dalam laravel ada method yang lebih baik dalam penggunaanya yaitu dengan menggunakan when() jika when kita harus menentukan kondisinya jika true / ada, dan jika tidak ada maka tidak akan dijalankan. Method when sangat cocok untuk digunakan dalam fitur search.
+Route juga diubah karena kita hanya akan menggunakan semuanya di page posts, Lalu untuk route category & authors di cardnya menjadi /posts?category={slug} kenapa bisa?
+karena kita sudah membuat Query Scope untuk fitur pencarian yang dimana jika kita melakukan pencarian yang sebenarnya terjadi di query seperti ini /posts?search=Asperiores+totam. nah karena kita juga membuat pencarian untuk category & author maka link untuk Post berdasarkan category & author akan berjalan dan itu berdasarkan slug.
+Kemudian buat pagination untuk halamannya dan di AppServiceProvidernya gunakan pagination milik bootstrap.
+
+Membuat view & controller untuk register & login serta menerapkan adminLTE.
+Membuat controller store untuk menyimpan data register, di form register melakukan method post & mengimkan data ke /register itu sendiri jika ada error saat melakukkan register (419 | Page Expired) maka gunakan @csrf berikan juga alert jika berhasil register 
