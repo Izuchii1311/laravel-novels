@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -73,15 +74,15 @@ class LoginController extends Controller
     {
         # validasi
         $credentials = $request->validate([
-            'email' => 'required|email:dns',
+            'email' => 'required|email',
             'password' => 'required'
         ]);
 
         # cek apakah akun loginnya sama atau tidak
-        if(Auth::attempt($credentials))                                # memeriksa kecocokan data dengan $validatedData
+        if(Auth::attempt($credentials))                      # memeriksa kecocokan data dengan $validatedData
         {
-            $request->session()->regenerate();                          # membuat session baru dengan id yang uniq
-            return redirect()->intended('/dashboard');          # akan mengarahkan ke dashboard jika berhasil login & jika tidak akan tetap berada di halaman login
+            $request->session()->regenerate();                           # membuat session baru dengan id yang uniq
+            return redirect()->intended('/dashboard');           # akan mengarahkan ke dashboard jika berhasil login & jika tidak akan tetap berada di halaman login
         }
 
         # ketika gagal maka akan melakukan berikut

@@ -53,5 +53,11 @@ Route juga diubah karena kita hanya akan menggunakan semuanya di page posts, Lal
 karena kita sudah membuat Query Scope untuk fitur pencarian yang dimana jika kita melakukan pencarian yang sebenarnya terjadi di query seperti ini /posts?search=Asperiores+totam. nah karena kita juga membuat pencarian untuk category & author maka link untuk Post berdasarkan category & author akan berjalan dan itu berdasarkan slug.
 Kemudian buat pagination untuk halamannya dan di AppServiceProvidernya gunakan pagination milik bootstrap.
 
-Membuat view & controller untuk register & login serta menerapkan adminLTE.
-Membuat controller store untuk menyimpan data register, di form register melakukan method post & mengimkan data ke /register itu sendiri jika ada error saat melakukkan register (419 | Page Expired) maka gunakan @csrf berikan juga alert jika berhasil register 
+Membuat view & controller untuk register & login serta menerapkan adminLTE (middleware).
+Membuat controller store untuk menyimpan data register, di form register melakukan method post & mengimkan data ke /register itu sendiri jika ada error saat melakukkan register (419 | Page Expired) maka gunakan @csrf berikan juga alert jika berhasil register
+Membuat Login Function dan Logout serta menerapkan middleware. Merubah RouteServiceProvider Home menjadi /dashboard perubahan akan terlihat di github.
+kenapa menggunakan regenerate() pada session(), karena untuk menghindari sebuah teknik hacking session fixation. Dengan cara memasuki celah di session pura pua masuk dengan session yang sama tanpa login dahulu. Maka untuk menghindari ini dilakukan generate ulang sessionnya.
+Intended, sebuah method yang disediakan oleh laravel yang akan melakukan redirect usernya ke sebuah tempat atau url sebelum melewati sebuah authentication middleware.
+
+Membuat view & controller untuk dashbord posts beserta dengan routenya. 
+Jika routenya menggunakan resource maka kita tidak bisa langsung mengambil atau melihat data berdasarkan { posts/slug } seperti berikut karena resource itu juga sudah memiliki pengaturan defaultnya yaitu id. ada caranya di laravel.com/route model binding (costumizing the key) karena jika tidak ingin selalu menggunakan id kita dapat menimpanya dengan sebuah method getRouteKeyName di dalam modelnya. maka di dalam model Post.php tambahkan *  public function getRouteKeyName(): string { return 'slug'; }

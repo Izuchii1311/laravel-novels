@@ -8,37 +8,37 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link {{ $title == 'Home' ? 'active' : '' }}" aria-current="page"
+                    <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" aria-current="page"
                         href="/">Home</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link {{ $title == 'Download' ? 'active' : '' }}" aria-current="page"
+                    <a class="nav-link {{ Request::is('downloads') ? 'active' : '' }}" aria-current="page"
                         href="/downloads">Downloads</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link {{ $title == 'Category' ? 'active' : '' }}" aria-current="page"
+                    <a class="nav-link {{ Request::is('categories') ? 'active' : '' }}" aria-current="page"
                         href="/categories">Category</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link {{ $title == 'Novels' ? 'active' : '' }}" aria-current="page"
+                    <a class="nav-link {{ Request::is('posts*') || Request::is('post/{post:slug}') || Request::is('post*') ? 'active' : '' }}" aria-current="page"
                         href="/posts">Novels</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link {{ $title == 'About' ? 'active' : '' }}" aria-current="page"
+                    <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" aria-current="page"
                         href="/about">About</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto me-4">
                 <li class="nav-item">
-                    <a class="nav-link {{ $title == 'Login' ? 'active' : '' }}" aria-current="page" href="/login"><i
+                    <a class="nav-link {{ Request::is('login') ? 'active' : '' }}" aria-current="page" href="/login"><i
                         class="bi bi-person-circle"></i> Login </a>
                 </li>
             </ul>

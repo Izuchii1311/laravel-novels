@@ -1,10 +1,14 @@
 <?php
 
+use App\Models\Post;
+use App\Models\User;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DashboardPostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,8 +60,23 @@ Route::get('/register', [RegisterController::class, 'index'])->middleware('guest
 Route::post('/register', [RegisterController::class, 'store']);
 
 # Admin/Index
-Route::get('/dashboard', function () {
+Route::get('/dashboard', function() {
+    $posts = Post::where('user_id', auth()->user()->id)
+        ->latest()
+        ->paginate(5)
+        ->withQueryString();                 # mengembalikkan data dari user yang sudah melakukan login
+
+    $totalPosts = $posts->total();
+    $pageNumber = ($posts->currentPage() -1 ) * $posts->perPage();
+
     return view('dashboard.index', [
-        "title" => "Dashboard Admin"
+        "title" => "Dashboard Admin",
+        "totalPost" => $totalPosts,
+        "totalCategory" => Category::count(),
+        "posts" => $posts,
+        "pageNumber" => $pageNumber
     ]);
 })->middleware('auth');
+
+# Admin/Posts
+Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');

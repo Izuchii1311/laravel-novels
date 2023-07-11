@@ -50,6 +50,12 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+        // return $this->belongsToMany(Category::class);
     }
 
+    # customizing route key (detail, edit, dan delete agar berdasarkan slug post-nya)
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

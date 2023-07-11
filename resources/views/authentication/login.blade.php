@@ -29,7 +29,7 @@
                     <div class="input-group mb-3">
                         <input type="email" name="email" id="email"
                             class="form-control @error('email')is-invalid @enderror" placeholder="Email" required
-                            value="{{ old('email') }}" autocomplete="off">
+                            value="{{ old('email') }}" autocomplete="off" >
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -46,7 +46,8 @@
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 {{-- add Js function for show password --}}
-                                <span class="fas fa-eye" onclick="showPassword()" id="iconPassword"></span>
+                                <span class="fas fa-eye" onclick="showPassword('password', 'iconPassword')"
+                                id="iconPassword"></span>
                             </div>
                         </div>
                         @error('password')
