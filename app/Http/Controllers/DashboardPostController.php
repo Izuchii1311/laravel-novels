@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 
 class DashboardPostController extends Controller
@@ -15,10 +15,12 @@ class DashboardPostController extends Controller
      */
     public function index()
     {
+        # mengambil data dari model Post berdasarkan user_id, & mengambil data id dari user yang telah berhasil authentication
         $posts = Post::where('user_id', auth()->user()->id)
-        ->latest()
         ->paginate(10)
         ->withQueryString();
+
+        # number Page
         $pageNumber = ($posts->currentPage() -1 ) * $posts->perPage();
 
         return view('dashboard.posts.index', [
@@ -33,6 +35,7 @@ class DashboardPostController extends Controller
     public function create()
     {
         return view('dashboard.posts.create', [
+            # menampilkan semua data category agar digunakan di dalam form saat create data
             "categories" => Category::all(),
         ]);
     }
@@ -42,7 +45,47 @@ class DashboardPostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+            // Check if the required input fields are empty
+        if (
+            empty($request->category_id) ||
+            empty($request->title) ||
+            empty($request->writer) ||
+            empty($request->author) ||
+            empty($request->publisher) ||
+            empty($request->publication_year) ||
+            empty($request->body)
+        ) {
+            return back()->with("failed", "Create new post failed. You must fill in all input fields");
+        }
+
+        # validate inputan
+        $validatedData = $request->validate([
+            "category_id" => 'required',
+            "title" => 'required|max:100',
+            # tidak memerlukan 'slug' untuk di validasi karena slug sudah dibuat secara otomatis.
+            # karena data diatangkap oleh $request-> dan melakukan validasi pada beberapa inputannya
+            # maka untuk slug tetap berada di dalam $request tidak perlu divalidasi lagi, karena input typenya tidak bisa diisi
+            // 'slug' => 'required|unique:posts',
+            "writer" => 'required',
+            "author" => 'required',
+            "publisher" => 'required',
+            "publication_year" => 'required',
+            "body" => 'required'
+        ]);
+
+        # retrieve the user_id of the user who is currently logged in
+        $validatedData['user_id'] = auth()->user()->id;
+
+        # excerpt will retrieve data from the body
+        // doc: laravel.com/string helpers
+        # limit() data yang diambil & menghilangkan tag html
+        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 75);
+
+        # upload data
+        Post::create($validatedData);
+
+        # redirect + message
+        return redirect('/dashboard/posts')->with("success", "New Post created has ben successfully");
     }
 
     /**
@@ -79,11 +122,11 @@ class DashboardPostController extends Controller
         //
     }
 
-    // New Method, untuk menangani permintaan slug
-    // request akan mengambil titlenya
+    # New Method, untuk menangani permintaan slug
+    # $request akan mengambil title yang diinput
     public function checkSlug(Request $request)
     {
-        // $slug = SlugService::createSlug(Post::class, 'slug', 'My First Post', ['unique' => false]);
+        # doc : https://github.com/cviebrock/eloquent-sluggable
         $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
         return response()->json(['slug' => $slug]);
     }

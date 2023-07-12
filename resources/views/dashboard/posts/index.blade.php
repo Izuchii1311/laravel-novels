@@ -16,6 +16,12 @@
                         </ol>
                     </div>
                 </div>
+                {{-- alert data success --}}
+                @if (session()->has('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <div class="d-flex justify-content-end">
                     <a href='/dashboard/posts/create' class="btn btn-success mx-2 my-2">Buat Post Baru +</a>
                 </div>
@@ -49,18 +55,19 @@
                                 <table class="table table-hover table-striped">
                                     <tbody>
                                         @foreach ($posts as $post)
-                                        <tr>
-                                            <td>{{ ++$pageNumber }}</td>
-                                            <td>{{ $post->title }}</td>
-                                            <td>{{ $post->excerpt }}</td>
-                                            <td>
-                                                <div class="d-flex justify-content-end">
-                                                    <a href='/dashboard/posts/{{ $post->slug }}' class="btn btn-primary mx-2">Detail</a>
-                                                    <button class="btn btn-warning mx-2">Edit</button>
-                                                    <button class="btn btn-danger mx-2">Delete</button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td>{{ ++$pageNumber }}</td>
+                                                <td>{{ $post->title }}</td>
+                                                <td>{{ $post->excerpt }}</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-end">
+                                                        <a href='/dashboard/posts/{{ $post->slug }}'
+                                                            class="btn btn-primary mx-2">Detail</a>
+                                                        <button class="btn btn-warning mx-2">Edit</button>
+                                                        <button class="btn btn-danger mx-2">Delete</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>

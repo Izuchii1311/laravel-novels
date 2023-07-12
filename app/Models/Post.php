@@ -44,6 +44,7 @@ class Post extends Model
     # 1 Post Novel dimiliki oleh 1 user
     public function user()
     {
+        // memberikan 'user_id', karena agar kita bisa mengakses user dengan post
         return $this->belongsTo(User::class, 'user_id');
     }
 
@@ -51,7 +52,6 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
-        // return $this->belongsToMany(Category::class);
     }
 
     # customizing route key (detail, edit, dan delete agar berdasarkan slug post-nya)
@@ -63,6 +63,7 @@ class Post extends Model
     use Sluggable;
 
     # Slug otomatis berdasarkan title
+    # Doc : https://github.com/cviebrock/eloquent-sluggable
     public function sluggable(): array
     {
         return [

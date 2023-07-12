@@ -68,3 +68,4 @@ Lalu menambahkan Package Eloquent Sluggable, agar membuat slug dari title conten
 
 	Installation
 	* composer require cviebrock/eloquent-sluggable
+Kemudian menjalankan fungsi store untuk menambahkan data post baru

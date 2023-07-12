@@ -13,9 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $title = "Category";
         return view('category', [
-            "title" => $title,
             "categories" => Category::all()
         ]);
     }

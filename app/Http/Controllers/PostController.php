@@ -16,27 +16,24 @@ class PostController extends Controller
      */
     public function index()
     {
-        $title = "Novels";
-        $titleActive = "$title";
-
         # search request
         if(request('category'))
         {
             $category = Category::firstWhere('slug', request('category'));
-            $titleActive = 'dengan kategori ' . $category->name;
+            $titleActive = 'Posts dengan kategori ' . $category->name;
         }
 
         if(request('authors'))
         {
             $authors = User::firstWhere('username', request('authors'));
-            $titleActive = 'dibuat oleh ' . $authors->username;
+            $titleActive = 'Posts yang dibuat oleh ' . $authors->username;
         }
 
-
         return view('posts', [
-            "title" => $title,
             "titleActive" => $titleActive,
-            "posts" => Post::latest()->filterSearch(request(['search', 'category', 'authors']))->paginate(10)->withQueryString()
+            "posts" => Post::latest()->filterSearch(request(['search', 'category', 'authors']))
+                            ->paginate(10)
+                            ->withQueryString()
         ]);
     }
 
@@ -61,9 +58,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $title = "Novels";
         return view('post', [
-            "title" => $title,
             "post" => $post
         ]);
     }

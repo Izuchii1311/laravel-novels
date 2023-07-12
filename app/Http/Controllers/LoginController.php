@@ -13,11 +13,14 @@ class LoginController extends Controller
      */
     public function index()
     {
+        # cek apakah sudah ada Login?
         if (Auth::check())
         {
+            // jika sudah login maka tampilkan index
             return view('dashboard.index');
-        }   
+        }
 
+        // jika belum login maka tampilkan login form
         return view('authentication.login');
     }
 
