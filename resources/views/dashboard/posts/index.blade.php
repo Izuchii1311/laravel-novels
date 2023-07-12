@@ -8,13 +8,16 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Posts</h1>
+                        <h1>All your posts</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/dashboard">Home</a>/{{ request()->path() }}</li>
                         </ol>
                     </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <a href='/dashboard/posts/create' class="btn btn-success mx-2 my-2">Buat Post Baru +</a>
                 </div>
             </div><!-- /.container-fluid -->
         </section>
@@ -50,9 +53,13 @@
                                             <td>{{ ++$pageNumber }}</td>
                                             <td>{{ $post->title }}</td>
                                             <td>{{ $post->excerpt }}</td>
-                                            <td> <a href='/dashboard/posts/{{ $post->slug }}' class="btn btn-primary">Detail</a> </td>
-                                            <td> <button class="btn btn-warning">Edit</button> </td>
-                                            <td> <button class="btn btn-danger">Delete</button> </td>
+                                            <td>
+                                                <div class="d-flex justify-content-end">
+                                                    <a href='/dashboard/posts/{{ $post->slug }}' class="btn btn-primary mx-2">Detail</a>
+                                                    <button class="btn btn-warning mx-2">Edit</button>
+                                                    <button class="btn btn-danger mx-2">Delete</button>
+                                                </div>
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>

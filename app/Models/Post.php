@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
@@ -57,5 +58,15 @@ class Post extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    use Sluggable;
+
+    # Slug otomatis berdasarkan title
+    public function sluggable(): array
+    {
+        return [
+            'slug' => ['source' => 'title']
+        ];
     }
 }

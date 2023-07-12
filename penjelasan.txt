@@ -59,5 +59,12 @@ Membuat Login Function dan Logout serta menerapkan middleware. Merubah RouteServ
 kenapa menggunakan regenerate() pada session(), karena untuk menghindari sebuah teknik hacking session fixation. Dengan cara memasuki celah di session pura pua masuk dengan session yang sama tanpa login dahulu. Maka untuk menghindari ini dilakukan generate ulang sessionnya.
 Intended, sebuah method yang disediakan oleh laravel yang akan melakukan redirect usernya ke sebuah tempat atau url sebelum melewati sebuah authentication middleware.
 
-Membuat view & controller untuk dashbord posts beserta dengan routenya. 
+Membuat view & controller untuk dashbord posts beserta dengan routenya.
 Jika routenya menggunakan resource maka kita tidak bisa langsung mengambil atau melihat data berdasarkan { posts/slug } seperti berikut karena resource itu juga sudah memiliki pengaturan defaultnya yaitu id. ada caranya di laravel.com/route model binding (costumizing the key) karena jika tidak ingin selalu menggunakan id kita dapat menimpanya dengan sebuah method getRouteKeyName di dalam modelnya. maka di dalam model Post.php tambahkan *  public function getRouteKeyName(): string { return 'slug'; }
+View untuk post index show dan create, kemudian menggunakan trix editor untuk form body.
+Lalu menambahkan Package Eloquent Sluggable, agar membuat slug dari title contentnya secara otomatis dan memeriksa di dbnya agar tidak ada kesamaan slug 
+	Menginstall package Eloquent Sluggable -> agar jika user membuat judul maka akan otomatis slugnya dibuat.
+	https://github.com/cviebrock/eloquent-sluggable
+
+	Installation
+	* composer require cviebrock/eloquent-sluggable

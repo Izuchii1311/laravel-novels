@@ -26,7 +26,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary card-outline">
                         <div class="card-header">
-                            <h3 class="card-title">Posts</h3>
+                            <h3 class="card-title">Post {{ $post->title }}</h3>
 
                             <div class="card-tools">
                                 <div class="input-group input-group-sm">
@@ -43,11 +43,26 @@
                         <!-- /.card-header -->
                         <div class="card-body p-0">
                             <div class="table-responsive mailbox-messages">
-                                <h1 class="text-center">{{ $post->title }}</h1>
-                                <p>{!! $post->body !!}</p>
-                                <a href='/dashboard/posts' class="btn btn-primary">Kembali</a>
-                                <a href='/dashboard/posts' class="btn btn-warning">Edit</a>
-                                <a href='/dashboard/posts' class="btn btn-danger">Delete</a>
+                                <div class="p-4">
+                                    <h1>{{ $post->title }}</h1>
+                                    <br>
+                                    <p>{!! $post->body !!}</p>
+                                    <br><br><hr>
+                                    <p>
+                                        Category : {{ $post->category->name }} <br>
+                                        Penulis : {{ $post->writer }} <br>
+                                        Pengarang : {{ $post->author }} <br>
+                                        Penerbit : {{ $post->publisher }} <br>
+                                        Diterbitkan : {{ $post->publication_year }}
+                                    </p>
+                                    <p>
+                                        <div class="d-flex justify-content-end">
+                                            <a href='/dashboard/posts' class="btn btn-primary mx-2">Kembali</a>
+                                            <a href='/dashboard/posts' class="btn btn-warning mx-2">Edit</a>
+                                            <button class="btn btn-danger mx-2">Delete</button>
+                                        </div>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
