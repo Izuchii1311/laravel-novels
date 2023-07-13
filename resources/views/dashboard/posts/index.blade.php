@@ -63,8 +63,17 @@
                                                     <div class="d-flex justify-content-end">
                                                         <a href='/dashboard/posts/{{ $post->slug }}'
                                                             class="btn btn-primary mx-2">Detail</a>
-                                                        <button class="btn btn-warning mx-2">Edit</button>
-                                                        <button class="btn btn-danger mx-2">Delete</button>
+                                                        {{-- Edit --}}
+                                                        <a href='/dashboard/posts/{{ $post->slug }}/edit'
+                                                            class="btn btn-warning mx-2">Edit</a>
+                                                        {{-- Delete --}}
+                                                        <form action="/dashboard/posts/{{ $post->slug }}" method="post"
+                                                            id="deleteForm{{ $post->slug }}">
+                                                            @method('delete')
+                                                            @csrf
+                                                            {{-- type button agar tidak langsung tersubmit --}}
+                                                            <button type="button" class="btn btn-danger mx-2" onclick="deletePost('{{ $post->slug }}')">Delete</button>
+                                                        </form>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -87,4 +96,24 @@
         </section>
         <!-- /.content -->
     </div>
+
+    <script>
+        function deletePost(slug) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Anda tidak akan bisa mengembalikan ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // jika ya, cari yang ada id deleteForm $ post->slug , lalu actionnya isi dengan urlnya
+                    document.getElementById('deleteForm' + slug).action = "/dashboard/posts/" + slug;
+                    document.getElementById('deleteForm' + slug).submit();
+                }
+            })
+        }
+    </script>
 @endsection

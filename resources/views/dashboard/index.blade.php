@@ -13,8 +13,6 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/dashboard">Home</a>/{{ request()->path() }}</li>
-                            {{-- <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
-                            <li class="breadcrumb-item active">{{ request()->path() }}</li> --}}
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -140,7 +138,7 @@
                             <!-- /.card-body -->
                             <div class="card-footer clearfix">
                                 <a href="/dashboard/posts" class="btn btn-sm btn-info float-left">Lihat Semua Post</a>
-                                <a href="/dashboard/posts" class="btn btn-sm btn-success float-right">Buat Post Baru</a>
+                                <a href="/dashboard/posts/create" class="btn btn-sm btn-success float-right">Buat Post Baru</a>
                             </div>
                             <!-- /.card-footer -->
                         </div>

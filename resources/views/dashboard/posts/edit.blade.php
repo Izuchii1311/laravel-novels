@@ -41,13 +41,15 @@
                             <div class="table-responsive mailbox-messages">
                                 <table class="table table-hover table-striped">
                                     <tbody>
-                                        <form action="/dashboard/posts" method="POST" enctype="multipart/form-data">
+                                        <form action="/dashboard/posts/{{ $post->slug }}" method="POST"
+                                            enctype="multipart/form-data">
                                             @csrf
+                                            @method('PUT')
                                             <div class="mb-3">
                                                 <label for="title"
                                                     class="form-label @error('title')is-invalid @enderror">Title</label>
                                                 <input type="text" class="form-control" id="title" name="title"
-                                                    value="{{ old('title') }}" required autocomplete="off"
+                                                    value="{{ old('title', $post->title) }}" required autocomplete="off"
                                                     autofocus>
                                                 @error('title')
                                                     {{ $message }}
@@ -57,7 +59,7 @@
                                                 <label for="slug"
                                                     class="form-label @error('slug')is-invalid @enderror">Slug</label>
                                                 <input type="text" class="form-control" id="slug" name="slug"
-                                                    value="{{ old('slug') }}" disabled readonly
+                                                    value="{{ old('slug', $post->slug) }}" disabled readonly
                                                     autocomplete="off">
                                                 <p>*slug otomatis terbuat mengambil data dari judul</p>
                                                 @error('slug')
@@ -68,7 +70,7 @@
                                                 <label for="writer"
                                                     class="form-label @error('writer')is-invalid @enderror">Writer</label>
                                                 <input type="text" class="form-control" id="writer" name="writer"
-                                                    value="{{ old('writer') }}" required autocomplete="off">
+                                                    value="{{ old('writer', $post->writer) }}" required autocomplete="off">
                                                 @error('writer')
                                                     {{ $message }}
                                                 @enderror
@@ -77,7 +79,7 @@
                                                 <label for="author"
                                                     class="form-label @error('author')is-invalid @enderror">Author</label>
                                                 <input type="text" class="form-control" id="author" name="author"
-                                                    value="{{ old('author') }}" required autocomplete="off">
+                                                    value="{{ old('author', $post->author) }}" required autocomplete="off">
                                                 @error('author')
                                                     {{ $message }}
                                                 @enderror
@@ -86,7 +88,7 @@
                                                 <label for="publisher"
                                                     class="form-label @error('publisher')is-invalid @enderror">Publisher</label>
                                                 <input type="text" class="form-control" id="publisher" name="publisher"
-                                                    value="{{ old('author') }}" required autocomplete="off">
+                                                    value="{{ old('author', $post->author) }}" required autocomplete="off">
                                                 @error('publisher')
                                                     {{ $message }}
                                                 @enderror
@@ -97,7 +99,7 @@
                                                     year</label>
                                                 <input type="date" class="form-control" id="publication_year"
                                                     name="publication_year"
-                                                    value="{{ old('publication_year') }}" required
+                                                    value="{{ old('publication_year', $post->publication_year) }}" required
                                                     autocomplete="off">
                                                 @error('publication_year')
                                                     {{ $message }}
@@ -107,7 +109,7 @@
                                                 <label for="category_id"
                                                     class="form-label @error('category_id')is-invalid @enderror">Category</label>
                                                 <select class="form-select" name="category_id"
-                                                    value="{{ old('category_id') }}">
+                                                    value="{{ old('category_id', $post->category_id) }}">
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}"
                                                             {{ old('category_id') == $category->id ? 'selected' : '' }}>
@@ -118,7 +120,7 @@
                                             <div class="mb-3">
                                                 <label for="body" class="form-label">Body</label>
                                                 <input id="body" type="hidden" name="body" required
-                                                    autocomplete="off" value="{{ old('body') }}">
+                                                    autocomplete="off" value="{{ old('body', $post->body) }}">
                                                 {{-- Trix Editor, diberikan input body agar kita bisa memasukkan valuenya --}}
                                                 <trix-editor input="body"></trix-editor>
                                                 @error('body')
@@ -126,7 +128,7 @@
                                                 @enderror
                                             </div>
                                             <br>
-                                            <button type="submit" class="btn btn-primary">Create New Post</button>
+                                            <button type="submit" class="btn btn-primary">Update Data</button>
                                         </form>
                                     </tbody>
                                 </table>

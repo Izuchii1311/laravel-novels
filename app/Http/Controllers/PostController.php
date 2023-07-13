@@ -16,6 +16,7 @@ class PostController extends Controller
      */
     public function index()
     {
+        $titleActive = '';
         # search request
         if(request('category'))
         {

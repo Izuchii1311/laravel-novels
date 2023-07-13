@@ -37,10 +37,19 @@
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto me-4">
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('login') ? 'active' : '' }}" aria-current="page" href="/login"><i
-                        class="bi bi-person-circle"></i> Login </a>
-                </li>
+                @if (Auth::check())
+                    {{-- user login --}}
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('login') ? 'active' : '' }}" aria-current="page" href="/login"><i
+                            class="bi bi-columns"></i> My Dashboard </a>
+                    </li>
+                @else
+                    {{-- user not login --}}
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('login') ? 'active' : '' }}" aria-current="page" href="/login"><i
+                            class="bi bi-person-circle"></i> Login </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

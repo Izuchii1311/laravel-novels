@@ -17,8 +17,11 @@
     <link rel="stylesheet" href="{{ asset('AdminLTE') }}/dist/css/adminlte.min.css">
     {{-- Trix Editor --}}
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
-    <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css') }}/style-dashboard.css">
+
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -49,11 +52,8 @@
     <script src="{{ asset('AdminLTE') }}/plugins/jquery-mapael/maps/usa_states.min.js"></script>
     <!-- ChartJS -->
     <script src="{{ asset('AdminLTE') }}/plugins/chart.js/Chart.min.js"></script>
-
-    <!-- AdminLTE for demo purposes -->
-    {{-- <script src="{{ asset('AdminLTE') }}/dist/js/demo.js"></script> --}}
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('AdminLTE') }}/dist/js/pages/dashboard2.js"></script>
+
 </body>
 
 </html>

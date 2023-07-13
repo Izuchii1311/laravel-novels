@@ -17,11 +17,11 @@ class DashboardPostController extends Controller
     {
         # mengambil data dari model Post berdasarkan user_id, & mengambil data id dari user yang telah berhasil authentication
         $posts = Post::where('user_id', auth()->user()->id)
-        ->paginate(10)
-        ->withQueryString();
+            ->paginate(10)
+            ->withQueryString();
 
         # number Page
-        $pageNumber = ($posts->currentPage() -1 ) * $posts->perPage();
+        $pageNumber = ($posts->currentPage() - 1) * $posts->perPage();
 
         return view('dashboard.posts.index', [
             "posts" => $posts,
@@ -45,7 +45,7 @@ class DashboardPostController extends Controller
      */
     public function store(Request $request)
     {
-            // Check if the required input fields are empty
+        // Check if the required input fields are empty
         if (
             empty($request->category_id) ||
             empty($request->title) ||
@@ -103,7 +103,10 @@ class DashboardPostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('dashboard.posts.edit', [
+            "post" => $post,
+            "categories" => Category::all()
+        ]);
     }
 
     /**
@@ -111,7 +114,30 @@ class DashboardPostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        # validate inputan
+        $rules = [
+            "category_id" => 'required',
+            "title" => 'required|max:100',
+            # tidak memerlukan 'slug' untuk di validasi karena slug sudah dibuat secara otomatis.
+            # karena data diatangkap oleh $request-> dan melakukan validasi pada beberapa inputannya
+            # maka untuk slug tetap berada di dalam $request tidak perlu divalidasi lagi, karena input typenya tidak bisa diisi
+            // 'slug' => 'required|unique:posts',
+            "writer" => 'required',
+            "author" => 'required',
+            "publisher" => 'required',
+            "publication_year" => 'required',
+            "body" => 'required'
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        $validatedData['user_id'] = auth()->user()->id;
+        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 75);
+
+        Post::where('id', $post->id)
+            ->update($validatedData);
+
+        return redirect('/dashboard/posts')->with('success', 'Post has been updated!');
     }
 
     /**
@@ -119,7 +145,9 @@ class DashboardPostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        # menghapus post berdasarkan id
+        Post::destroy($post->id);
+        return redirect('/dashboard/posts')->with('success', "Posts has ben deleted!");
     }
 
     # New Method, untuk menangani permintaan slug
