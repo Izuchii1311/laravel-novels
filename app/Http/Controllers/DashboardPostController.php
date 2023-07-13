@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardPostController extends Controller
 {
@@ -45,6 +46,10 @@ class DashboardPostController extends Controller
      */
     public function store(Request $request)
     {
+        # testing
+        // ddd($request)
+        // $validatedData['image'] = $request->file('image')->store('post-images');
+
         // Check if the required input fields are empty
         if (
             empty($request->category_id) ||
@@ -69,9 +74,16 @@ class DashboardPostController extends Controller
             "writer" => 'required',
             "author" => 'required',
             "publisher" => 'required',
+            "image" => 'image|file|max:2048',
             "publication_year" => 'required',
             "body" => 'required'
         ]);
+
+        if($request->file('image'))
+        {
+            // store akan mengembalikan path selain memasukkan file ke folder storage
+            $validatedData['image'] = $request->file('image')->store('post-images');
+        }
 
         # retrieve the user_id of the user who is currently logged in
         $validatedData['user_id'] = auth()->user()->id;
@@ -125,11 +137,22 @@ class DashboardPostController extends Controller
             "writer" => 'required',
             "author" => 'required',
             "publisher" => 'required',
+            "image" => 'image|file|max:2048',
             "publication_year" => 'required',
             "body" => 'required'
         ];
 
         $validatedData = $request->validate($rules);
+
+        // image
+        if($request->file('image')) {
+            // jika ada gambar baru timpa gambar sebelumnya
+            if($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+
+            $validatedData['image'] = $request->file('image')->store('post-images');
+        };
 
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 75);
@@ -147,6 +170,12 @@ class DashboardPostController extends Controller
     {
         # menghapus post berdasarkan id
         Post::destroy($post->id);
+
+        // delete image
+        if($post->image) {
+            Storage::delete($post->image);
+        };
+
         return redirect('/dashboard/posts')->with('success', "Posts has ben deleted!");
     }
 

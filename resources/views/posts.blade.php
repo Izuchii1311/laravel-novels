@@ -28,7 +28,8 @@
                     <div class="input-group mb-3">
                         <input type="text" name="search" class="form-control" id="search" placeholder="Search..."
                             value="{{ request('search') }}">
-                        <button type="submit" class="btn btn-primary" id="search-button"><i class="bi bi-search"></i></button>
+                        <button type="submit" class="btn btn-primary" id="search-button"><i
+                                class="bi bi-search"></i></button>
                     </div>
                 </form>
             </div>
@@ -37,8 +38,17 @@
         <div class="row">
             <div class="col-12 mb-3 mt-3">
                 <div class="card text-center justify-content-center">
-                    <img src="https://source.unsplash.com/1200x250?/{{ $posts[0]->category->name }}" class="card-img-top"
-                        alt="{{ $posts[0]->category->name }}">
+                    @if ($posts[0]->image)
+                        <div>
+                            <img src="{{ asset('storage/' . $posts[0]->image) }}" alt=""
+                                class="card-top-img img-fluid" alt="{{ $posts[0]->category->image }}">
+                        </div>
+                    @else
+                        <div>
+                            <img src="https://source.unsplash.com/1200x400?{{ $posts[0]->category->name }}" alt=""
+                                class="card-top-img img-fluid" alt="{{ $posts[0]->category->image }}">
+                        </div>
+                    @endif
                     <div class="card-body">
                         <h5 class="card-title">{{ $posts[0]->title }}</h5>
                         <p>
@@ -63,8 +73,17 @@
                 @foreach ($posts->skip(1) as $post)
                     <div class="col-4 mb-3 mt-3">
                         <div class="card">
-                            <img src="https://source.unsplash.com/1200x500?/{{ $post->category->name }}"
-                                class="card-img-top" alt="{{ $post->category->name }}">
+                            @if ($post->image)
+                                <div>
+                                    <img src="{{ asset('storage/' . $post->image) }}" alt=""
+                                        class="card-top-img img-fluid" alt="{{ $post->category->image }}">
+                                </div>
+                            @else
+                                <div>
+                                    <img src="https://source.unsplash.com/1200x400?{{ $post->category->name }}"
+                                        alt="" class="card-top-img img-fluid" alt="{{ $post->category->image }}">
+                                </div>
+                            @endif
                             <div class="card-body">
                                 <h5 class="card-title">{{ $post->title }}</h5>
                                 <p>

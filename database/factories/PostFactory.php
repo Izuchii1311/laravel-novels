@@ -24,6 +24,7 @@ class PostFactory extends Factory
             'writer' => $this->faker->name(),
             'author' => $this->faker->name(),
             'publisher' => $this->faker->name(),
+            'image' => null,
             'excerpt' => $this->faker->paragraph(),
             'body' => collect($this->faker->paragraphs(mt_rand(1,8)))
                     ->map(fn($p) => "<p>$p</p>")->implode(''),

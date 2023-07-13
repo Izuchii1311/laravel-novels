@@ -69,3 +69,24 @@ Lalu menambahkan Package Eloquent Sluggable, agar membuat slug dari title conten
 	Installation
 	* composer require cviebrock/eloquent-sluggable
 Kemudian menjalankan fungsi store untuk menambahkan data post baru
+
+Image
+Menambahkan form
+Controller Validation (ddd($request) for debugging) lokasi gambar ada di files, sehingga akan membuat string masuk ke request filenya masuk ke files.
+Doc:file storage/system using flysystem. setting file config/filesystems.php
+copy FILESYSTEM_DISK buka .env FILESYSTEM_DISK=public maka akan menggunakan FILESYSTEM_DISK milik env yaitu public
+tetapi jika melakukan testing, tetap tidak akan bisa diakses, karena folder public di storage harus dihubungkan dengan folder public di dalam aplikasi
+        // $validatedData['image'] = $request->file('image')->store('post-images');
+
+gunakan symbolic link php artisan storage:link
+jika sudah kita bisa memanggilnya seperti berikut
+    @if ($posts[0]->image)
+        <div>
+            <img src="{{ asset('storage/' . $posts[0]->image) }}" alt="" class="card-top-img img-fluid" alt="{{ $posts[0]->category->image }}">
+        </div>
+    @else
+        <div>
+            <img src="https://source.unsplash.com/1200x400?{{ $posts[0]->category->name }}" alt="" class="card-top-img img-fluid" alt="{{ $posts[0]->category->image }}">
+        </div>
+    @endif
+Melakukan Edit pada form image dan delete menghapus juga image di storage jika gambar di ubah atau di delete

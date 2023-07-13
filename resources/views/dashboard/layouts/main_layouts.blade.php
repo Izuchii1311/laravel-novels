@@ -34,6 +34,42 @@
 
     @include('dashboard.layouts.partials.footer')
 
+    {{-- Fetch API JavaScript -- create slug automatically with get from title --}}
+    <script>
+        const title = document.querySelector('#title');
+        const slug = document.querySelector('#slug');
+
+        // Even Handler, yang menangani ketika kita tuliskan di dalam title itu berubah.
+        title.addEventListener('change', function() {
+            // kita akan melakukan fetch dari controller dashboard/post/ method checkSlug()
+            // data dari title diambil kemudian diolah dan dikembalikan sebagai slug
+            fetch('/dashboard/posts/checkSlug?title=' + title.value)
+                .then(response => response.json())
+                .then(data => slug.value = data.slug)
+            console.log(data.slug);
+        });
+
+        // mematikan fungsi file upload di trix
+        document.addEventListener('trix-file-accept', function(e) {
+            e.preventDefault();
+        });
+
+        // Preview Image Before Upload
+        function previewImage() {
+            const image = document.querySelector('#image');
+            const imgPreview = document.querySelector('.img-preview');
+
+            imgPreview.style.display = 'block';
+
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(image.files[0]);
+
+            oFReader.onload = function(oFREvent) {
+                imgPreview.src = oFREvent.target.result;
+            }
+        }
+    </script>
+
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
     <script src="{{ asset('AdminLTE') }}/plugins/jquery/jquery.min.js"></script>

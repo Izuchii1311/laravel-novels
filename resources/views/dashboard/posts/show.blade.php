@@ -46,8 +46,22 @@
                                 <div class="p-4">
                                     <h1>{{ $post->title }}</h1>
                                     <br>
+                                    @if ($post->image)
+                                        <div>
+                                            <img src="{{ asset('storage/' . $post->image) }}" alt=""
+                                                class="card-top-img img-fluid" alt="{{ $post->category->image }}">
+                                        </div>
+                                    @else
+                                        <div>
+                                            <img src="https://source.unsplash.com/1200x400?{{ $post->category->name }}"
+                                                alt="" class="card-top-img img-fluid"
+                                                alt="{{ $post->category->image }}">
+                                        </div>
+                                    @endif
+                                    <br>
                                     <p>{!! $post->body !!}</p>
-                                    <br><br><hr>
+                                    <br><br>
+                                    <hr>
                                     <p>
                                         Category : {{ $post->category->name }} <br>
                                         Penulis : {{ $post->writer }} <br>
@@ -56,11 +70,24 @@
                                         Diterbitkan : {{ $post->publication_year }}
                                     </p>
                                     <p>
+                                    <div class="d-flex justify-content-end">
                                         <div class="d-flex justify-content-end">
-                                            <a href='/dashboard/posts' class="btn btn-primary mx-2">Kembali</a>
-                                            <a href='/dashboard/posts' class="btn btn-warning mx-2">Edit</a>
-                                            <button class="btn btn-danger mx-2">Delete</button>
+                                            <a href='/dashboard/posts'
+                                                class="btn btn-primary mx-2">Kembali</a>
+                                            {{-- Edit --}}
+                                            <a href='/dashboard/posts/{{ $post->slug }}/edit'
+                                                class="btn btn-warning mx-2">Edit</a>
+                                            {{-- Delete --}}
+                                            <form action="/dashboard/posts/{{ $post->slug }}" method="post"
+                                                id="deleteForm{{ $post->slug }}">
+                                                @method('delete')
+                                                @csrf
+                                                {{-- type button agar tidak langsung tersubmit --}}
+                                                <button type="button" class="btn btn-danger mx-2"
+                                                    onclick="deletePost('{{ $post->slug }}')">Delete</button>
+                                            </form>
                                         </div>
+                                    </div>
                                     </p>
                                 </div>
                             </div>
@@ -70,4 +97,24 @@
             </div>
         </section>
     </div>
+
+    <script>
+        function deletePost(slug) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Anda tidak akan bisa mengembalikan ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // jika ya, cari yang ada id deleteForm $ post->slug , lalu actionnya isi dengan urlnya
+                    document.getElementById('deleteForm' + slug).action = "/dashboard/posts/" + slug;
+                    document.getElementById('deleteForm' + slug).submit();
+                }
+            })
+        }
+    </script>
 @endsection

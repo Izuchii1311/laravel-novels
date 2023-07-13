@@ -117,6 +117,31 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            {{-- Upload Image --}}
+                                            <div class="mb-3">
+                                                <label class="form-label" for="image">Upload Image</label>
+
+                                                {{-- akan menyimpan gambar lama --}}
+                                                <input type="hidden" name="oldImage" value="{{ $post->image }}">
+                                                @if ($post->image)
+                                                    {{-- Jika ada gambar sebelumnya maka akan mengambil data sebelumnya di storage --}}
+                                                    <img src="{{ url(asset('storage/' . $post->image)) }}"
+                                                        class="img-preview mb-3 col-sm-5 img-fluid d-flex">
+                                                @else
+                                                    <img class="img-preview mb-3 col-sm-5 img-fluid d-flex"
+                                                        alt="{{ $post->image }}">
+                                                @endif
+
+                                                <input type="file"
+                                                    class="form-control @error('image') is-invalid @enderror" id="image"
+                                                    name="image" onchange="previewImage()">
+
+                                                @error('image')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
                                             <div class="mb-3">
                                                 <label for="body" class="form-label">Body</label>
                                                 <input id="body" type="hidden" name="body" required
@@ -128,7 +153,8 @@
                                                 @enderror
                                             </div>
                                             <br>
-                                            <button type="submit" class="btn btn-primary">Update Data</button>
+                                            <a href="/dashboard/posts" class="btn btn-primary mx-2">Kembali</a>
+                                            <button type="submit" class="btn btn-success mx-2">Update Post</button>
                                         </form>
                                     </tbody>
                                 </table>
@@ -145,26 +171,4 @@
         </section>
         <!-- /.content -->
     </div>
-
-    {{-- Fetch API JavaScript -- create slug automatically with get from title --}}
-    <script>
-        const title = document.querySelector('#title');
-        const slug = document.querySelector('#slug');
-
-        // Even Handler, yang menangani ketika kita tuliskan di dalam title itu berubah.
-        title.addEventListener('change', function() {
-            // kita akan melakukan fetch dari controller dashboard/post/ method checkSlug()
-            // data dari title diambil kemudian diolah dan dikembalikan sebagai slug
-            fetch('/dashboard/posts/checkSlug?title=' + title.value)
-                .then(response => response.json())
-                .then(data => slug.value = data.slug)
-            console.log(data.slug);
-        });
-
-
-        // mematikan fungsi file upload di trix
-        document.addEventListener('trix-file-accept', function(e) {
-            e.preventDefault();
-        });
-    </script>
 @endsection

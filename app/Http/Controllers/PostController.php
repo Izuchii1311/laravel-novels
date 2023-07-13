@@ -21,13 +21,13 @@ class PostController extends Controller
         if(request('category'))
         {
             $category = Category::firstWhere('slug', request('category'));
-            $titleActive = 'Posts dengan kategori ' . $category->name;
+            $titleActive = ' dengan kategori ' . $category->name;
         }
 
         if(request('authors'))
         {
             $authors = User::firstWhere('username', request('authors'));
-            $titleActive = 'Posts yang dibuat oleh ' . $authors->username;
+            $titleActive = ' yang dibuat oleh ' . $authors->username;
         }
 
         return view('posts', [

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('writer');
             $table->string('author');
             $table->string('publisher');
+            $table->string('image')->nullable();
             $table->text('excerpt');
             $table->text('body');
             $table->date('publication_year');
