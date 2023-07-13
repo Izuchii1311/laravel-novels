@@ -2,7 +2,8 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ asset('AdminLTE') }}/index3.html" class="brand-link">
-        <img src="https://media.tenor.com/VtFUW-durpoAAAAC/kururin-kuru-kuru.gif" class="brand-image img-circle elevation-3" alt="" width="35" height="35">
+        <img src="https://media.tenor.com/VtFUW-durpoAAAAC/kururin-kuru-kuru.gif"
+            class="brand-image img-circle elevation-3" alt="" width="35" height="35">
         <span class="brand-text font-weight-bolder">Admin Dashboard</span>
     </a>
 
@@ -74,18 +75,11 @@
                     </div>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/dashboard/posts" class="nav-link {{ Request::is('dashboard/posts*') ? 'active' : '' }}">
+                            <a href="/dashboard/posts"
+                                class="nav-link {{ Request::is('dashboard/posts*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
                                     Posts
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ asset('AdminLTE') }}/pages/gallery.html" class="nav-link">
-                                <i class="nav-icon fas fa-tasks"></i>
-                                <p>
-                                    Category
                                 </p>
                             </a>
                         </li>
@@ -99,6 +93,30 @@
                         </li>
                     </ul>
                 </li>
+
+                {{-- gates --}}
+                @can('admin')
+                {{-- Administrator --}}
+                <li class="nav-item {{ Request::is('dashboard/categories*') ? 'menu-open' : '' }}">
+                    <div class="nav-link">
+                        <p>
+                            Administrator
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </div>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/dashboard/categories"
+                                class="nav-link {{ Request::is('dashboard/categories*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-tags"></i>
+                                <p>
+                                    Category
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endcan
 
                 {{-- Account --}}
                 <li class="nav-item">
@@ -128,7 +146,8 @@
                         <li class="nav-item">
                             <form action="/logout" method="post">
                                 @csrf
-                                <button type="submit" class="btn btn-text nav-link btn-danger mt-4"><i class="nav-icon fas fa-sign-out-alt"></i>Logout</button>
+                                <button type="submit" class="btn btn-text nav-link btn-danger mt-4"><i
+                                        class="nav-icon fas fa-sign-out-alt"></i>Logout</button>
                             </form>
                         </li>
                     </ul>

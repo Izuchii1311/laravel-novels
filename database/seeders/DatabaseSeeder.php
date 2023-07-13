@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             'name' => "Luthfi Nur Ramadhan",
             'username' => "Izuchii",
             'email' => "luthfiramadhan.lr55@gmail.com",
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
         ]);
 
         Category::factory()->create([

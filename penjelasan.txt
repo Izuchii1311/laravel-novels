@@ -90,3 +90,43 @@ jika sudah kita bisa memanggilnya seperti berikut
         </div>
     @endif
 Melakukan Edit pada form image dan delete menghapus juga image di storage jika gambar di ubah atau di delete
+
+Authentication untuk login dan registrasi.
+Authorization setelah login user dapat melakukan apa? jika admin maka bisa ini, jika user biasa maka bisa ini.
+Laravel Authorization ini menyediakan sebuah cara yang mudah, dan terorganisir untuk mengelola pemeriksaan atau pengecekkan hak akses.
+Ada 2 caranya
+Cara yang pertama dengan menggunakan gates(simpel)
+Cara yang kedua dengan menggunakan policies(kompleks)
+
+Jika menggunakan starter kit menggunakan Laravel (ZetStream atau Breeze) yang didalamnya terdapat fitur authentication dan Authorization yang dapat digunakan. Sebenarnya dibelakang layar yang mereka gunakan tetap gates and policies.
+Membuat Controller AdminCategoryController --resource -m Category
+buat view category index
+    di dalam index controllernya kita akan memisahkannya menjadi middleware tersendiri agar codenya tidak ditulis berulang
+        // if(!auth()->check() || auth()->username !== 'Izuchii') {         #sama saja mau pakai check (true jika login)/ guest
+        if(auth()->guest() || auth()->username !== 'Izuchii') {
+            abort(403);                 # forbidden
+        }
+
+        return view('/dashboard/categories/index', [
+            "categories" => Category::all()
+        ]);
+
+Buat middleware dengannama IsAdmin dan masukkan logic diatas di dalam method handle sebelum return, cara agar berjalan middleware jalankan juga di kernelnya
+menghilangkan tampilan administrator menggunakan gates karena lebih fleksibel dibanding menggunakan middleware,
+dan tidak bisa langsung diberikan kondisi secara langsung
+
+masuk ke AppServiceProvidernya, mendefinisikan gates yang namanya admin dan itu sudah login yang hanya bisa diakses dengan user yang namanya Izuchii
+        # middleware admin
+        Gate::define('admin', function(User $user) {
+            # karena sudah login maka kita dapat melakukannya langsung
+            return $user->username === "Izuchii";
+        });
+
+        akan menggunakan gates di sidebarnya
+
+middleware digunakan di route, gates digunakan di viewnya
+di db nya akan ditambahkan is_admin karena jika admin bertambah / berubah maka akan repot merubah codenya kembali
+
+menambahkan row di table dbnya tanpa merubah db sebelumnya
+add_is_admin_to_users_table > no > yes > users lalu migrate biasa
+kemudian jalankan edit, show, delete untuk category
