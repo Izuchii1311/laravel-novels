@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -54,7 +55,7 @@ class AdminCategoryController extends Controller
         Category::create($validatedData);
 
         # redirect + message
-        return redirect('/dashboard/categories')->with("success", "New Post created has ben successfully");
+        return redirect('/dashboard/categories')->with("success", "New Categories created has ben successfully");
     }
 
     /**
@@ -62,7 +63,9 @@ class AdminCategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return view('/dashboard/categories/show', [
+            "categories" => $category
+        ]);
     }
 
     /**
@@ -70,7 +73,9 @@ class AdminCategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('/dashboard/categories/edit', [
+            "categories" => $category
+        ]);
     }
 
     /**
@@ -78,7 +83,18 @@ class AdminCategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $validatedData = $request->validate([
+            "name" => 'required|max:20',
+            "body" => 'required'
+        ]);
+
+        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 75);
+
+        # upload data
+        Category::where('id', $category->id)
+            ->update($validatedData);
+
+        return redirect('/dashboard/categories')->with('success', 'Categories has been updated!');
     }
 
     /**
@@ -86,7 +102,9 @@ class AdminCategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        Post::where('category_id', $category->id)->delete();
+        Category::destroy($category->id);
+        return redirect('/dashboard/categories')->with('success', "Category & Post has ben deleted!");
     }
 
     public function checkSlug(Request $request)
@@ -94,5 +112,4 @@ class AdminCategoryController extends Controller
         $slug = SlugService::createSlug(Category::class, 'slug', $request->name);
         return response()->json(['slug' => $slug]);
     }
-
 }

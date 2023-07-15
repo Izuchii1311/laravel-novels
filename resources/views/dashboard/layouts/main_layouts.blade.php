@@ -21,7 +21,6 @@
 
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 </head>
 
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -36,6 +35,7 @@
 
     {{-- Fetch API JavaScript -- create slug automatically with get from title --}}
     <script>
+        // Post Slug
         const title = document.querySelector('#title');
         const slug = document.querySelector('#slug');
 
@@ -70,7 +70,6 @@
         }
     </script>
 
-    <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
     <script src="{{ asset('AdminLTE') }}/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -79,8 +78,6 @@
     <script src="{{ asset('AdminLTE') }}/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('AdminLTE') }}/dist/js/adminlte.js"></script>
-
-    <!-- PAGE PLUGINS -->
     <!-- jQuery Mapael -->
     <script src="{{ asset('AdminLTE') }}/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
     <script src="{{ asset('AdminLTE') }}/plugins/raphael/raphael.min.js"></script>
@@ -89,7 +86,6 @@
     <!-- ChartJS -->
     <script src="{{ asset('AdminLTE') }}/plugins/chart.js/Chart.min.js"></script>
     <script src="{{ asset('AdminLTE') }}/dist/js/pages/dashboard2.js"></script>
-
 </body>
 
 </html>

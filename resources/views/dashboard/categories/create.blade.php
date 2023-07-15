@@ -41,7 +41,7 @@
                             <div class="table-responsive mailbox-messages">
                                 <table class="table table-hover table-striped">
                                     <tbody>
-                                        <form action="/dashboard/category" method="POST">
+                                        <form action="/dashboard/categories" method="POST">
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="name"
@@ -55,7 +55,7 @@
                                             <div class="mb-3">
                                                 <label for="slug"
                                                     class="form-label @error('slug')is-invalid @enderror">Slug</label>
-                                                <input type="text" class="form-control" id="slugcategory" name="slug"
+                                                <input type="text" class="form-control" id="slug" name="slug"
                                                     value="{{ old('slug') }}" disabled readonly autocomplete="off">
                                                 <p>*slug otomatis terbuat mengambil data dari name-nya</p>
                                                 @error('slug')
@@ -93,17 +93,14 @@
     </div>
 
     <script>
+        // Category Slug
         const name = document.querySelector('#name');
-        const slugcategory = document.querySelector('#slugcategory');
-
-        // Event Handler, yang menangani ketika kita tuliskan di dalam name itu berubah.
-        name.addEventListener('input', function() {
-            // kita akan melakukan fetch dari controller dashboard/categories/ method checkSlug()
-            // data dari name diambil kemudian diolah dan dikembalikan sebagai slug
+        const slug = document.querySelector('#slug');
+        name.addEventListener('change', function() {
             fetch('/dashboard/categories/checkSlug?name=' + name.value)
                 .then(response => response.json())
-                .then(data => slugcategory.value = data.slug)
-                .catch(error => console.log(error));
+                .then(data => slug.value = data.slug)
+            console.log(data.slug);
         });
     </script>
 @endsection

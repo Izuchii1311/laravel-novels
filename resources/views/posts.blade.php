@@ -6,9 +6,9 @@
         <div class="row justify-content-end">
             <div class="col-4">
                 @if (request('category'))
-                    <h2 class="mt-4 mb-4 ">posts {{ $titleActive }}</h2>
+                    <h2 class="mt-4 mb-4 ">Posts {{ $titleActive }}</h2>
                 @elseif (request('authors'))
-                    <h2 class="mt-4 mb-4 ">posts {{ $titleActive }}</h2>
+                    <h2 class="mt-4 mb-4 ">Posts {{ $titleActive }}</h2>
                 @else
                     <h2 class="mt-4 mb-4 ">All posts</h2>
                 @endif

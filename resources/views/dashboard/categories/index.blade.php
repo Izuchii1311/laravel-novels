@@ -72,7 +72,7 @@
                                                             @method('delete')
                                                             @csrf
                                                             {{-- type button agar tidak langsung tersubmit --}}
-                                                            <button type="button" class="btn btn-danger mx-2" onclick="deletePost('{{ $category->slug }}')">Delete</button>
+                                                            <button type="button" class="btn btn-danger mx-2" onclick="deleteCategory('{{ $category->slug }}')">Delete</button>
                                                         </form>
                                                     </div>
                                                 </td>
@@ -98,10 +98,10 @@
     </div>
 
     <script>
-        function deletePost(slug) {
+        function deleteCategory(slug) {
             Swal.fire({
                 title: 'Apakah Anda yakin?',
-                text: "Anda tidak akan bisa mengembalikan ini!",
+                text: "DATA POSTS SEMUA USER DENGAN CATEGORY INI AKAN DIHAPUS!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
